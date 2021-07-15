@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 DBUILD="$DIR/build/aktin-notaufnahme-dwh_$VERSION"
 
 # Load common linux files
-source $(dirname "$DIR")/build.sh "$DBUILD"
+source $(dirname "$DIR")/build.sh "$DBUILD" "$VERSION"
 
 mkdir -p $DBUILD/DEBIAN
 sed -e "s/__PACKAGE__/$PACKAGE/g" -e "s/__VERSION__/$VERSION/g" $DIR/control > $DBUILD/DEBIAN/control
