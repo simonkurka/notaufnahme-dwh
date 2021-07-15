@@ -4,19 +4,19 @@ set -e
 . /usr/share/debconf/confmodule
 
 # count databases with name aktin
-local PSQL=""
+PSQL=""
 db_get $PACKAGE/db_local
 if [ "$RET" = "true" ]; then
 	PSQL="sudo -u postgres psql"
 else
 	db_get aktin-notaufnahme/db_host
-	local host="$RET"
+	host="$RET"
 	db_get aktin-notaufnahme/db_port
-	local port="$RET"
+	port="$RET"
 	db_get aktin-notaufnahme/db_user
-	local user="$RET"
+	user="$RET"
 	db_get aktin-notaufnahme/db_pass
-	local pass="$RET"
+	pass="$RET"
 	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
 fi
 
