@@ -1,5 +1,5 @@
 #!/bin/bash
 set -e
 
-systemctl stop wildfly.service
+systemctl stop wildfly.service || true
 
