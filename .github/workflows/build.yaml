@@ -22,7 +22,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Debian package
-          path: build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
+          path: debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
   docker:
     runs-on: ubuntu-latest
     needs: debian
