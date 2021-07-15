@@ -1,10 +1,9 @@
 #!/bin/bash
 set -e
 
-PACKAGE=aktin-notaufnahme-dwh
-
-DBUILD=$1
+PACKAGE=$1
 VERSION=$2
+DBUILD=$3
 
 # Directory this script is located in + /resources
 DRESOURCES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/resources"
