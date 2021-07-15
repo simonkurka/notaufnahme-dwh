@@ -3,7 +3,8 @@ Version: __VERSION__
 Section: science
 Priority: optional
 Architecture: all
-Depends: curl, sudo, libpq-dev, software-properties-common, openjdk-11-jre-headless, postgresql-12, apache2, php, php-common, libapache2-mod-php, php-curl, r-base-core, r-cran-lattice, r-cran-xml, libcurl4-openssl-dev, libssl-dev, libxml2-dev, r-cran-tidyverse, python3, python3-pandas, python3-numpy, python3-requests, python3-sqlalchemy, python3-psycopg2, python3-postgresql, python3-zipp, python3-plotly, python3-unicodecsv, python3-gunicorn
+Depends: __DEPEND_I2B2__, curl, sudo, libpq-dev, software-properties-common, openjdk-11-jre-headless, apache2, php, php-common, libapache2-mod-php, php-curl, r-base-core, r-cran-lattice, r-cran-xml, libcurl4-openssl-dev, libssl-dev, libxml2-dev, r-cran-tidyverse, python3, python3-pandas, python3-numpy, python3-requests, python3-sqlalchemy, python3-psycopg2, python3-postgresql, python3-zipp, python3-plotly, python3-unicodecsv, python3-gunicorn
+Recommends: postgresql-12
 Maintainer: AKTIN IT <it-support@aktin.org>
 Description: AKTIN Datawarehouse in Notaufnahmen
 
