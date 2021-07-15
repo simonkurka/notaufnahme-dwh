@@ -3,9 +3,10 @@ case "$1" in
   purge)
     sudo -u postgres psql -v ON_ERROR_STOP=1 <<EOF
 __AKTIN_DROP__
+
 EOF
 ;;
 esac
 
-systemctl start wildfly.service
+systemctl start wildfly.service || true
 
