@@ -31,7 +31,7 @@ if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 	echo -e "\e[1;33mEine Datenbank mit Namen aktin und entsprechendem User wird erstellt.\e[0m"
 	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/aktin_postgres_init.sql"
 else
-	echo -e "\e[0;33mDie Integration der AKTIN-Datenbank wurde bereits durchgeführt.\e[0m"
+	echo -e "Die Integration der AKTIN-Datenbank wurde bereits durchgeführt."
 fi
 
 systemctl start wildfly.service
