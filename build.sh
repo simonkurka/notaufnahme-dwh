@@ -10,7 +10,7 @@ VERSION=$2
 DRESOURCES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/resources"
 
 mkdir -p $DBUILD/opt/wildfly/standalone/deployments/
-wget -P $DBUILD/opt/wildfly/standalone/deployments https://github.com/aktin/dwh-j2ee/releases/download/v$VERSION/dwh-j2ee-$VERSION.ear
+wget -P $DBUILD/opt/wildfly/standalone/deployments https://www.aktin.org/software/repo/org/aktin/dwh/dwh-j2ee/$VERSION/dwh-j2ee-$VERSION.ear
 cp $DRESOURCES/datasource/* $DBUILD/opt/wildfly/standalone/deployments/
 
 
