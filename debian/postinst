@@ -1,0 +1,38 @@
+#!/bin/bash
+set -e
+
+. /usr/share/debconf/confmodule
+
+# count databases with name aktin
+local PSQL=""
+db_get $PACKAGE/db_local
+if [ "$RET" = "true" ]; then
+	PSQL="sudo -u postgres psql"
+else
+	db_get aktin-notaufnahme/db_host
+	local host="$RET"
+	db_get aktin-notaufnahme/db_port
+	local port="$RET"
+	db_get aktin-notaufnahme/db_user
+	local user="$RET"
+	db_get aktin-notaufnahme/db_pass
+	local pass="$RET"
+	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
+fi
+
+if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
+
+	# add aktin data to i2b2 database
+	echo -e "\e[1;33mAKTIN-Daten werden der Datenbank i2b2 hinzugefügt.\e[0m"
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/addon_i2b2metadata.i2b2.sql"
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/addon_i2b2crcdata.concept_dimension.sql"
+
+	# create database aktin and respective user
+	echo -e "\e[1;33mEine Datenbank mit Namen aktin und entsprechendem User wird erstellt.\e[0m"
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/aktin_postgres_init.sql"
+else
+	echo -e "\e[0;33mDie Integration der AKTIN-Datenbank wurde bereits durchgeführt.\e[0m"
+fi
+
+systemctl start wildfly.service
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- datasource configuration to connect wildfly server with i2b2.i2b2imdata in postgres -->
+<datasources xmlns="http://www.jboss.org/ironjacamar/schema">
+    <datasource jta="false" jndi-name="java:jboss/datasources/AktinDS" pool-name="AktinDS">
+        <connection-url>jdbc:postgresql://localhost:5432/aktin</connection-url>
+        <driver>postgresql-42.2.8.jar</driver>
+        <security>
+            <user-name>aktin</user-name>
+            <password>aktin</password>
+        </security>
+        <validation>
+            <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
+            <validate-on-match>false</validate-on-match>
+            <background-validation>true</background-validation>
+            <background-validation-millis>60000</background-validation-millis>
+            <use-fast-fail>true</use-fast-fail>
+            <check-valid-connection-sql>SELECT 1</check-valid-connection-sql>
+        </validation>
+    </datasource>
+</datasources>
