@@ -17,7 +17,7 @@ jobs:
       - name: Build
         run: |
           cd debian
-          ./build.sh ${{ steps.prep.outputs.version }}
+          ./build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
