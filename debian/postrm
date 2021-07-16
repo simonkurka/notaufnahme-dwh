@@ -2,39 +2,38 @@
 set -e
 
 . /usr/share/debconf/confmodule
-DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
-
-rm -f /opt/wildfly/standalone/deployments/dwh-j2ee-*
-
-# count databases with name aktin
-PSQL=""
-db_get $DEBCONF_NAME/db_conn
-if [ "$RET" = "unix" ]; then
-	PSQL="sudo -u postgres psql"
-	echo "Connecting to postgres via local unix socket."
-else
-	db_get $DEBCONF_NAME/db_host
-	host="$RET"
-	db_get $DEBCONF_NAME/db_port
-	port="$RET"
-	db_get $DEBCONF_NAME/db_user
-	user="$RET"
-	db_get $DEBCONF_NAME/db_pass
-	pass="$RET"
-	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
-	echo "Connecting to postgres via TCP/IP to $host:$port."
-fi
 
 case "$1" in
-  purge)
-    echo "Dropping AKTIN database ..."
-    eval "$PSQL -v ON_ERROR_STOP=1" <<EOF > /dev/null
+	remove)
+		rm -f /opt/wildfly/standalone/deployments/dwh-j2ee-*
+		;;
+	purge)
+		I2B2_SHARED=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
+		PSQL=""
+		db_get $I2B2_SHARED/db_conn
+		if [ "$RET" = "unix" ]; then
+			PSQL="sudo -u postgres psql"
+			echo "Connecting to postgres via local unix socket."
+		else
+			db_get $I2B2_SHARED/db_host
+			host="$RET"
+			db_get $I2B2_SHARED/db_port
+			port="$RET"
+			db_get $I2B2_SHARED/db_user
+			user="$RET"
+			db_get $I2B2_SHARED/db_pass
+			pass="$RET"
+			PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
+			echo "Connecting to postgres via TCP/IP to $host:$port."
+		fi
+		echo "Dropping AKTIN database ..."
+		eval "$PSQL -v ON_ERROR_STOP=1" <<EOF >/dev/null
 __AKTIN_DROP__
 
 EOF
-    db_purge
-;;
+		db_purge
+		;;
 esac
 
-systemctl start wildfly.service || true
+systemctl start wildfly.service 2> /dev/null || true
 

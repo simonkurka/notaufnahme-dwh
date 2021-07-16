@@ -27,12 +27,12 @@ if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 
 	# add aktin data to i2b2 database
 	echo -e "Seeding i2b2 database with AKTIN data ..."
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2metadata.i2b2.sql" > /dev/null
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2crcdata.concept_dimension.sql" > /dev/null
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2metadata.i2b2.sql" >/dev/null
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2crcdata.concept_dimension.sql" >/dev/null
 
 	# create database aktin and respective user
 	echo -e "Creating AKTIN database ..."
-	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/aktin_postgres_init.sql" > /dev/null
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/aktin_postgres_init.sql" >/dev/null
 else
 	echo -e "AKTIN database already exists. Skipping ..."
 fi
