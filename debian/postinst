@@ -2,7 +2,6 @@
 set -e
 
 . /usr/share/debconf/confmodule
-
 DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
 
 # count databases with name aktin
@@ -10,6 +9,7 @@ PSQL=""
 db_get $DEBCONF_NAME/db_conn
 if [ "$RET" = "unix" ]; then
 	PSQL="sudo -u postgres psql"
+	echo "Connecting to postgres via local unix socket."
 else
 	db_get $DEBCONF_NAME/db_host
 	host="$RET"
@@ -20,20 +20,21 @@ else
 	db_get $DEBCONF_NAME/db_pass
 	pass="$RET"
 	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
+	echo "Connecting to postgres via TCP/IP to $host:$port."
 fi
 
 if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 
 	# add aktin data to i2b2 database
-	echo -e "\e[1;33mAKTIN-Daten werden der Datenbank i2b2 hinzugefügt.\e[0m"
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2metadata.i2b2.sql"
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2crcdata.concept_dimension.sql"
+	echo -e "Seeding i2b2 database with AKTIN data ..."
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2metadata.i2b2.sql" > /dev/null
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2crcdata.concept_dimension.sql" > /dev/null
 
 	# create database aktin and respective user
-	echo -e "\e[1;33mEine Datenbank mit Namen aktin und entsprechendem User wird erstellt.\e[0m"
-	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/aktin_postgres_init.sql"
+	echo -e "Creating AKTIN database ..."
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/aktin_postgres_init.sql" > /dev/null
 else
-	echo -e "Die Integration der AKTIN-Datenbank wurde bereits durchgeführt."
+	echo -e "AKTIN database already exists. Skipping ..."
 fi
 
 systemctl start wildfly.service
