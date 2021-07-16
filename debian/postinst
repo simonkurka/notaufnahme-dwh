@@ -26,12 +26,12 @@ if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 
 	# add aktin data to i2b2 database
 	echo -e "\e[1;33mAKTIN-Daten werden der Datenbank i2b2 hinzugefügt.\e[0m"
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/addon_i2b2metadata.i2b2.sql"
-	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/addon_i2b2crcdata.concept_dimension.sql"
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2metadata.i2b2.sql"
+	eval "$PSQL -d i2b2 -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/addon_i2b2crcdata.concept_dimension.sql"
 
 	# create database aktin and respective user
 	echo -e "\e[1;33mEine Datenbank mit Namen aktin und entsprechendem User wird erstellt.\e[0m"
-	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/sql/aktin_postgres_init.sql"
+	eval "$PSQL -v ON_ERROR_STOP=1 -f /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/database/aktin_postgres_init.sql"
 else
 	echo -e "Die Integration der AKTIN-Datenbank wurde bereits durchgeführt."
 fi
