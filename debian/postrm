@@ -32,6 +32,7 @@ case "$1" in
 __AKTIN_DROP__
 
 EOF
+    db_purge
 ;;
 esac
 
