@@ -1,26 +1,26 @@
-Template: __DEBCONF_NAME__/db_conn
+Template: __I2B2_SHARED__/db_conn
 Type: select
 Choices: unix, tcp
 Default: unix
 Description: Connect via local unix socket or TCP/IP?
 
-Template: __DEBCONF_NAME__/db_host
+Template: __I2B2_SHARED__/db_host
 Type: string
 Default: localhost
 Description: What ist the hostname of your PostgreSQL Server?
 
-Template: __DEBCONF_NAME__/db_port
+Template: __I2B2_SHARED__/db_port
 Type: string
 Default: 5432
 Description: On which port does your PostgreSQL Server listen?
 
-Template: __DEBCONF_NAME__/db_user
+Template: __I2B2_SHARED__/db_user
 Type: string
 Default: localhost
 Description: What ist the user for your PostgreSQL Server?
  The user must have privileges to add users and databases.
 
-Template: __DEBCONF_NAME__/db_pass
+Template: __I2B2_SHARED__/db_pass
 Type: password
 Default: localhost
 Description: What ist the password for your PostgreSQL Server?
