@@ -7,13 +7,13 @@ jobs:
   debian:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Prepare Version
         id: prep
         run: |
           echo ::set-output name=user::$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=repo::$(echo "${{ github.repository }}" | awk -F / '{print $2}' | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+      - uses: actions/checkout@v2
       - name: Build
         run: |
           cd debian
@@ -28,16 +28,16 @@ jobs:
     needs: debian
     if: ${{ false }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v2
-        with:
-          name: Debian package
       - name: Prepare Version
         id: prep
         run: |
           echo ::set-output name=user::$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=repo::$(echo "${{ github.repository }}" | awk -F / '{print $2}' | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          name: Debian package
       - name: Build and push docker image for ${{ github.job }}
         uses: docker/build-push-action@v2
         with:
@@ -62,12 +62,6 @@ jobs:
       - uses: actions/download-artifact@v2
         with:
           name: ${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
-      - name: Prepare Version
-        id: prep
-        run: |
-          echo ::set-output name=user::$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
-          echo ::set-output name=repo::$(echo "${{ github.repository }}" | awk -F / '{print $2}' | tr '[:upper:]' '[:lower:]')
-          echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
       - name: Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
