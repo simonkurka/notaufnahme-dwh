@@ -3,19 +3,21 @@ set -e
 
 . /usr/share/debconf/confmodule
 
+DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
+
 # count databases with name aktin
 PSQL=""
-db_get $PACKAGE/db_local
-if [ "$RET" = "true" ]; then
+db_get $DEBCONF_NAME/db_conn
+if [ "$RET" = "unix" ]; then
 	PSQL="sudo -u postgres psql"
 else
-	db_get aktin-notaufnahme/db_host
+	db_get $DEBCONF_NAME/db_host
 	host="$RET"
-	db_get aktin-notaufnahme/db_port
+	db_get $DEBCONF_NAME/db_port
 	port="$RET"
-	db_get aktin-notaufnahme/db_user
+	db_get $DEBCONF_NAME/db_user
 	user="$RET"
-	db_get aktin-notaufnahme/db_pass
+	db_get $DEBCONF_NAME/db_pass
 	pass="$RET"
 	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
 fi
