@@ -4,6 +4,8 @@ set -e
 . /usr/share/debconf/confmodule
 DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
 
+ln -sf /etc/aktin/aktin.properties /opt/wildfly/standalone/configuration/
+
 # count databases with name aktin
 PSQL=""
 db_get $DEBCONF_NAME/db_conn

@@ -14,7 +14,8 @@ cp $DRESOURCES/datasource/* $DBUILD/opt/wildfly/standalone/deployments/
 
 
 mkdir -p $DBUILD/opt/wildfly/standalone/configuration/
-cp $DRESOURCES/aktin.properties $DBUILD/opt/wildfly/standalone/configuration/
+mkdir -p $DBUILD/etc/aktin
+cp $DRESOURCES/aktin.properties $DBUILD/etc/aktin/
 
 #
 # Post-install resources
