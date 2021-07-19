@@ -6,6 +6,8 @@ set -e
 case "$1" in
 	remove)
 		rm -f /opt/wildfly/standalone/deployments/dwh-j2ee-*
+		rm -f /opt/wildfly/standalone/deployments/aktin-ds.xml
+		rm -f /opt/wildfly/standalone/deployments/aktin-ds.xml.*
 		;;
 	purge)
 		I2B2_SHARED=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')

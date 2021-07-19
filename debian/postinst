@@ -10,6 +10,8 @@ ln -sf /etc/aktin/aktin.properties /opt/wildfly/standalone/configuration/
 PSQL=""
 db_get $DEBCONF_NAME/db_conn
 if [ "$RET" = "unix" ]; then
+	host="localhost"
+	port="5432"
 	PSQL="sudo -u postgres psql"
 	echo "Connecting to postgres via local unix socket."
 else
@@ -38,6 +40,10 @@ if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 else
 	echo -e "AKTIN database already exists. Skipping ..."
 fi
+
+sed -e "s/__HOST__/$host/g" \
+    -e "s/__PORT__/$port/g" \
+    /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/aktin-ds.xml > /opt/wildfly/standalone/deployments/aktin-ds.xml
 
 systemctl start wildfly.service
 

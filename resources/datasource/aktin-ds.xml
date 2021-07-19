@@ -3,7 +3,7 @@
 <!-- datasource configuration to connect wildfly server with i2b2.i2b2imdata in postgres -->
 <datasources xmlns="http://www.jboss.org/ironjacamar/schema">
     <datasource jta="false" jndi-name="java:jboss/datasources/AktinDS" pool-name="AktinDS">
-        <connection-url>jdbc:postgresql://localhost:5432/aktin</connection-url>
+        <connection-url>jdbc:postgresql://__HOST__:__PORT__/aktin</connection-url>
         <driver>postgresql-42.2.8.jar</driver>
         <security>
             <user-name>aktin</user-name>

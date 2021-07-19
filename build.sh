@@ -10,8 +10,6 @@ DRESOURCES="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )/resou
 
 mkdir -p $DBUILD/opt/wildfly/standalone/deployments/
 wget -P $DBUILD/opt/wildfly/standalone/deployments https://www.aktin.org/software/repo/org/aktin/dwh/dwh-j2ee/$VERSION/dwh-j2ee-$VERSION.ear
-cp $DRESOURCES/datasource/* $DBUILD/opt/wildfly/standalone/deployments/
-
 
 mkdir -p $DBUILD/opt/wildfly/standalone/configuration/
 mkdir -p $DBUILD/etc/aktin
@@ -21,5 +19,5 @@ cp $DRESOURCES/aktin.properties $DBUILD/etc/aktin/
 # Post-install resources
 #
 mkdir -p $DBUILD/usr/share/$PACKAGE
-cp -r $DRESOURCES/database $DBUILD/usr/share/$PACKAGE/
+cp -r $DRESOURCES/database $DRESOURCES/datasource $DBUILD/usr/share/$PACKAGE/
 
