@@ -45,5 +45,7 @@ sed -e "s/__HOST__/$host/g" \
     -e "s/__PORT__/$port/g" \
     /usr/share/$DPKG_MAINTSCRIPT_PACKAGE/datasource/aktin-ds.xml > /opt/wildfly/standalone/deployments/aktin-ds.xml
 
+chown -R wildfly:wildfly /var/lib/aktin
+
 systemctl start wildfly.service
 
