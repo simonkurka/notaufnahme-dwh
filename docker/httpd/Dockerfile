@@ -1,0 +1,2 @@
+FROM __BASEIMAGE__
+

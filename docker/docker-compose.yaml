@@ -1,0 +1,23 @@
+services:
+  database:
+    image: ${DWHIMAGENAMESPACE}database
+    build: build/database
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: >
+        psql -U postgres -lqt | cut -d \| -f 1 | grep -qw aktin
+      interval: 1s
+      timeout: 1s
+      retries: 120
+  httpd:
+    image: ${DWHIMAGENAMESPACE}httpd
+    build: build/httpd
+    ports:
+      - "8080:80"
+  wildfly:
+    image: ${DWHIMAGENAMESPACE}wildfly
+    build: build/wildfly
+    depends_on:
+      database:
+        condition: service_healthy
