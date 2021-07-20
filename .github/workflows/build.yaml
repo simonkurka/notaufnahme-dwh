@@ -44,24 +44,24 @@ jobs:
         with:
           context: docker/build/httpd
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.prep.outputs.version }}
+            ghcr.io/${{ github.repository }}-httpd:latest
+            ghcr.io/${{ github.repository }}-httpd:${{ steps.prep.outputs.version }}
           push: true
       - name: Build and push docker image for ${{ github.job }} [database]
         uses: docker/build-push-action@v2
         with:
           context: docker/build/database
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.prep.outputs.version }}
+            ghcr.io/${{ github.repository }}-database:latest
+            ghcr.io/${{ github.repository }}-database:${{ steps.prep.outputs.version }}
           push: true
       - name: Build and push docker image for ${{ github.job }} [wildfly]
         uses: docker/build-push-action@v2
         with:
           context: docker/build/wildfly
           tags: |
-            ghcr.io/${{ github.repository }}:latest
-            ghcr.io/${{ github.repository }}:${{ steps.prep.outputs.version }}
+            ghcr.io/${{ github.repository }}-wildfly:latest
+            ghcr.io/${{ github.repository }}-wildfly:${{ steps.prep.outputs.version }}
           push: true
   gh-release:
     runs-on: ubuntu-latest
