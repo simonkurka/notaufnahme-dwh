@@ -26,7 +26,7 @@ export DWHIMAGENAMESPACE="$(echo "${PACKAGE}" | awk -F '-' '{print "ghcr.io/"$1"
 . "$(dirname "${DIR}")/build.sh"
 
 mkdir -p "${DBUILD}/wildfly"
-sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}wildfly|g" wildfly/Dockerfile >"${DBUILD}/wildfly/Dockerfile"
+sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}wildfly|g" "${DIR}/wildfly/Dockerfile" >"${DBUILD}/wildfly/Dockerfile"
 cp "${DRESOURCES}/aktin.properties" "${DBUILD}/wildfly/"
 dwh_j2ee "/wildfly"
 aktin_properties "/wildfly"
@@ -34,13 +34,16 @@ aktin_importscripts "/wildfly"
 datasource_postinstall "/wildfly/ds"
 
 mkdir -p "${DBUILD}/database"
-sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}database|g" database/Dockerfile >"${DBUILD}/database/Dockerfile"
+sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}database|g" "${DIR}/database/Dockerfile" >"${DBUILD}/database/Dockerfile"
 database_postinstall "/database/sql"
 
 mkdir -p "${DBUILD}/httpd"
-sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}httpd|g" httpd/Dockerfile >"${DBUILD}/httpd/Dockerfile"
+sed -e "s|__BASEIMAGE__|${I2B2IMAGENAMESPACE}httpd|g" "${DIR}/httpd/Dockerfile" >"${DBUILD}/httpd/Dockerfile"
 
 if [ "${FULL}" = "full" ]; then
+	cwd="$(pwd)"
+	cd "${DIR}"
 	docker-compose build
+	cd "${cwd}"
 fi
 
