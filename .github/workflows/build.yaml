@@ -13,13 +13,13 @@ jobs:
           echo ::set-output name=user::$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=repo::$(echo "${{ github.repository }}" | awk -F / '{print $2}' | tr '[:upper:]' '[:lower:]')
           echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-      - name: Import GPG key
-        run: echo -n "$GPG_SIGNING_KEY" | gpg --import
       - uses: actions/checkout@v2
       - name: Build
         run: debian/build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
       - name: Sign package
-        run: dpkg-sig --sign builder debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
+        run: |
+          echo -n "$GPG_SIGNING_KEY" | gpg --import
+          dpkg-sig --sign builder debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
