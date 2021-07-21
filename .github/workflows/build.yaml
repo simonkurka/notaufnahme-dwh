@@ -19,6 +19,7 @@ jobs:
       - name: Sign package
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+        if: env.GPG_SIGNING_KEY != null
         run: |
           echo -n "$GPG_SIGNING_KEY" | gpg --import
           sudo apt update && sudo apt install -y dpkg-sig
