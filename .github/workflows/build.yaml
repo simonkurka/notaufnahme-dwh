@@ -21,7 +21,7 @@ jobs:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
         run: |
           echo -n "$GPG_SIGNING_KEY" | gpg --import
-          apt update && apt install -y dpkg-sig
+          sudo apt update && sudo apt install -y dpkg-sig
           dpkg-sig --sign builder debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
