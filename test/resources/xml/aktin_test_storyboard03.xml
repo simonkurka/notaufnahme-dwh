@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../stylesheets/CDA.xsl"?>
+<?xml-model href="../schematron-basis/aktin-basism20152b.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- 
+    AKTIN-Projekt
+    
+    Beispiel Storyboard 4: Urosepsis
+    Storyboard aktin-4
+    2015-05-29 KHeitmann
+    
+    Am Sonntag, den 18.01.2015 um 07:01 stellt sich Frau Maike Hanisch
+    *23. Juli 1976 mit Durchfall und Erbrechen (CEDIS-Code 254) seit 8h
+    bestehend in der Notaufnahme vor. Eine Ersteinschätzung erfolgt nicht.
+    Wegen Verdacht auf Norovirus-Infektion wird die Patientin isoliert,
+    ein Verdacht auf einen multiresistenten Keim liegt nicht vor. Die
+    Patientin ist laut eigener Aussage nicht schwanger.
+    
+    An initialen Vitalparametern wird eine Atemfrequenz von 15/min, eine
+    SpO2 von 98%, ein RRsys von 120 mmHg und eine Herzfrequenz von 100/min
+    festgestellt. Der GCS beträgt 4/5/6 = 15, die Körperkerntemperatur
+    beträgt 37,5°C.
+    
+    Um 07:35 erfolgt der Kontakt mit dem verantwortlichen Arzt, dieser
+    erhebt folgende Anamnese. Die Patientin hat seit 23:00 schwallartiges
+    Erbrechen und stinkenden, wässrigen Durchfall aus vollkommenem
+    Wohlbefinden heraus. Die vorherigen Nahrungsaufnahmen ergeben keinen
+    Anhalt für eine Lebensmittelvergiftung. Es besteht ein allgemeines
+    Krankheitsgefühl. Die Vorstellung erfolgt wegen anhaltendem Durchfall
+    und Schwächegefühl.
+    
+    Die körperliche Untersuchung ergibt keine pathologischen
+    Auffälligkeiten.
+    
+    Die Patientin wird mit der Diagnose „akute Gastroenteritis durch
+    Norovirus“ A08.1 und der Empfehlung zum WHO-Durchfalldrink um 08:30
+    nach Hause entlassen.
+    
+-->
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc" xsi:schemaLocation="urn:hl7-org:v3 ../schemas/CDA.xsd">
+    <!--
+        CDA Header
+    -->
+    <!-- Realmcode (fix) -->
+    <realmCode code="DE"/>
+    <!-- Type Id (fix) -->
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <!-- Template Id (fix) -->
+    <templateId root="1.2.276.0.76.10.1019"/>
+    <!-- Identifikation des Dokuments -->
+    <id root="1.2.276.0.76.4.17.9814184919" extension="6bc18aa4-1372-4db1-8d1f-6519e584f88g"/>
+    <!-- Fixer Dokumententype-Code -->
+    <code code="68552-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Emergency medicine Emergency department Admission evaluation note"/>
+    <!-- Datum und Zeit der Erstellung -->
+    <effectiveTime value="20150118083500"/>
+    <!-- Vertraulichkeitsstufe -->
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <!-- Sprache und Länderkennung -->
+    <languageCode code="de-DE"/>
+    <!-- Set-ID und Versionsnummer des Dokuments -->
+    <setId root="1.2.276.0.76.4.17.9814184919" extension="020ed858-4d71-4363-ac37-196baa2d74e4"/>
+    <versionNumber value="1"/>
+    
+    <!-- Patient -->
+    <recordTarget typeCode="RCT" contextControlCode="OP">
+        <patientRole classCode="PAT">
+            <!-- Identifikation -->
+            <id extension="8772567330" root="1.2.276.0.76.4.8"/>
+            <!-- Adresse -->
+            <addr>
+                <streetAddressLine>Samsungplatz 22</streetAddressLine>
+                <postalCode>45678</postalCode>
+                <city>Herten</city>
+            </addr>
+            <patient classCode="PSN" determinerCode="INSTANCE">
+                <!-- Name -->
+                <name>
+                    <given>Maike</given>
+                    <family>Hanisch</family>
+                </name>
+                <!-- Geschlecht -->
+                <administrativeGenderCode code="F" codeSystem="2.16.840.1.113883.5.1"/>
+                <!-- Geburtsdatum -->
+                <birthTime value="19760723"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    
+    <!-- Author -->
+    <author typeCode="AUT" contextControlCode="OP">
+        <time value="201501180830"/>
+        <assignedAuthor classCode="ASSIGNED">
+            <id root="1.2.276.0.76.3.2.829584985"/>
+            <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                <name>
+                    <prefix>Dr. med. </prefix>
+                    <given>Luke</given>
+                    <family>Ranner</family>
+                </name>
+            </assignedPerson>
+            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                <id root="1.2.276.0.76.4.17" extension="4738758478"/>
+                <name>Klinikum Herten</name>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    
+    <!-- Verwaltungsorganisation des Dokuments -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id root="1.2.276.0.76.4.17" extension="4738758478"/>
+                <name>Klinikum Herten</name>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    
+    <!-- Aufnahme -->
+    <documentationOf typeCode="DOC">
+        <serviceEvent classCode="ACT" moodCode="EVN">
+            <!-- Behandlung -->
+            <effectiveTime>
+                <!-- Start der Behandlung (Datum und Zeit), Zeitangabe genau bis auf die Minute -->
+                <low value="20150118071200"/>
+                <!-- Verlegungs-/Entlassungszeitpunkt (Datum und Zeit), Zeitangabe genau bis auf die Minute-->
+                <high value="20150118083000"/>
+            </effectiveTime>
+            <performer typeCode="PRF">
+                <!-- Erster Arzt, Arztkontakt Beginn und Ende -->
+                <time>
+                    <!-- Begin des Arztkontaktes -->
+                    <low value="201501180735"/>
+                    <!-- Ende des Arztkontaktes -->
+                    <high value="201501180751"/>
+                </time>
+                <assignedEntity classCode="ASSIGNED">
+                    <id nullFlavor="NA"/>
+                </assignedEntity>
+            </performer>
+        </serviceEvent>
+    </documentationOf>
+    
+    <!-- Patientenkontakt -->
+    <componentOf>
+        <encompassingEncounter classCode="ENC" moodCode="EVN">
+            <!-- Aufnahme-Identifikator -->
+            <id root="1.2.276.0.76.3.87686" extension="987654321-04"/>
+            <effectiveTime>
+                <!-- Start Patientenkontakt -->
+                <low value="201501180701"/>
+                <!-- Ende Patientenkontakt = Zeitpunkt der Verlegung/Entlassung -->
+                <high value="201501180830"/>
+            </effectiveTime>
+        </encompassingEncounter>
+    </componentOf>
+    
+    <!--
+        CDA Body
+    -->
+    <component>
+        <structuredBody>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Transportmittel -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3045"/>
+                    <code code="11459-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Transport mode"/>
+                    <title>Transportmittel</title>
+                    <text>Ohne</text>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4037"/>
+                            <code code="11459-5" codeSystem="2.16.840.1.113883.6.1" displayName="Transport method"/>
+                            <statusCode code="completed"/>
+                            <!-- Optional: Ankunftszeit -->
+                            <effectiveTime>
+                                <high value="201501180701"/>
+                            </effectiveTime>
+                            <value xsi:type="CV" nullFlavor="NA"/>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Notfallanamnese -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3053"/>
+                    <code code="10164-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of present illness"/>
+                    <title>Notfallanamnese</title>
+                    <text>Patient stellt sich mit Durchfall und Erbrechen (CEDIS-Code 254) seit 8h bestehend in der Notaufnahme vor.
+                        Eine Ersteinschätzung erfolgt nicht. Wegen Verdacht auf Norovirus-Infektion wird die Patientin isoliert, 
+                        ein Verdacht auf einen multiresistenten Keim liegt nicht vor. Die Patientin ist laut eigener Aussage nicht schwanger.
+                        <br/>
+                        Die Patientin hat seit 23:00 schwallartiges Erbrechen und stinkenden, wässrigen Durchfall aus vollkommenem 
+                        Wohlbefinden heraus. Die vorherigen Nahrungsaufnahmen ergeben keinen Anhalt für eine Lebensmittelvergiftung. 
+                        Es besteht ein allgemeines Krankheitsgefühl. Die Vorstellung erfolgt wegen anhaltendem Durchfall und Schwächegefühl.
+                    </text>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Beschwerden bei Vorstellung -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3048"/>
+                    <code code="46239-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Chief complaint+Reason for visit"/>
+                    <title>Beschwerden bei Vorstellung</title>
+                    <text>
+                        <content ID="compl-1">Durchfall und Erbrechen</content>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4039"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="c7a7f896-6125-4de4-ab16-706f1d2221c1"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern"/>
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="20150118"/>
+                            </effectiveTime>
+                            <entryRelationship typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.2.276.0.76.10.4040"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="635c62f9-f99d-4d3f-ac4e-8921a7cba070"/>
+                                    <code code="75322-8" codeSystem="2.16.840.1.113883.6.1" displayName="Complaint"/>
+                                    <text>
+                                        <reference value="#compl-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <width value="8" unit="h"/>
+                                    </effectiveTime>
+                                    <value xsi:type="CE" code="254" codeSystem="1.2.276.0.76.5.439" displayName="Diarrhea">
+                                        <originalText>Durchfall und Erbrechen</originalText>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Klinische Basisinformationen -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3047"/>
+                    <code code="55752-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Clinical information"/>
+                    <title>Klinische Basisinformationen</title>
+                    <text>
+                        <list>
+                            <item>Schwanger: nein</item>
+                            <item>Multiresistenter Keim: nein</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4043"/>
+                            <code code="11449-6" codeSystem="2.16.840.1.113883.6.1" displayName="Pregnancy status"/>
+                            <statusCode code="completed"/>
+                            <value xsi:type="CV" code="0" codeSystem="1.2.276.0.76.3.1.195.5.46" displayName="Patient nicht schwanger"/>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4072"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="f67a6ff8-ed4b-4f7e-82c3-e98e58b45de6"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern"/>
+                            <statusCode code="completed"/>
+                            <entryRelationship typeCode="SUBJ">
+                                <!-- kein multiresistenter Keim -->
+                                <observation classCode="OBS" moodCode="EVN" negationInd="true">
+                                    <templateId root="1.2.276.0.76.10.4073"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="eeffb7c0-2111-43f2-a784-9a5fdfaa67f7"/>
+                                    <code code="COND" codeSystem="2.16.840.1.113883.5.4" displayName="Condition"/>
+                                    <text>
+                                        <reference value="#mdro-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <value xsi:type="CD" code="AMRO" codeSystem="1.2.276.0.76.5.441" displayName="Multiresistenter Keim"/>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!--  Vitalparameter und Scores -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3044"/>
+                    <code code="8716-3" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Vital signs"/>
+                    <title>Vitalparameter</title>
+                    <text>
+                        <list>
+                            <item>Atemfrequenz 15/min</item>
+                            <item>SpO2 98%</item>
+                            <item>RRsys 120mmHg</item>
+                            <item>HF 100/min</item>
+                            <item>GCS von 4/5/6 = 15</item>
+                            <item>Körperkerntemperatur 37,5°C</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4030"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="038fe3b8-0ab4-48b4-9364-ec33a3d93c39"/>
+                            <code code="9279-1" codeSystem="2.16.840.1.113883.6.1" displayName="Respiratory Rate"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501180740"/>
+                            <value xsi:type="PQ" value="15" unit="/min"/>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4031"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="4fd9bef5-fb10-4861-8309-ddcb6945356d"/>
+                            <code code="20564-1" codeSystem="2.16.840.1.113883.6.1" displayName="Oxygen saturation"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501180740"/>
+                            <value xsi:type="PQ" value="98.0" unit="%"/>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4032"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="3494a475-c69e-4192-8f32-b82147eb5866"/>
+                            <code code="8480-6" codeSystem="2.16.840.1.113883.6.1" displayName="Systolic blood pressure"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501180740"/>
+                            <value xsi:type="PQ" value="120" unit="mm[Hg]"/>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4033"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="9f71e785-8ac5-45a6-8920-001d086361e9"/>
+                            <code code="8867-4" codeSystem="2.16.840.1.113883.6.1" displayName="Heart Rate"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501180740"/>
+                            <value xsi:type="PQ" value="100" unit="/min"/>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4034"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="0ea0e052-7568-497a-8909-f084dd108559"/>
+                            <code code="9269-2" codeSystem="2.16.840.1.113883.6.1" displayName="Glasgow coma score total"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501180740"/>
+                            <value xsi:type="PQ" value="15" unit="{score}"/>
+                            <entryRelationship typeCode="COMP" contextConductionInd="true">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="9267-6" codeSystem="2.16.840.1.113883.6.1" displayName="Glasgow coma score eye opening"/>
+                                    <statusCode code="completed"/>
+                                    <value xsi:type="PQ" value="4" unit="{score}"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP" contextConductionInd="true">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="9270-0" codeSystem="2.16.840.1.113883.6.1" displayName="Glasgow coma score verbal"/>
+                                    <statusCode code="completed"/>
+                                    <value xsi:type="PQ" value="5" unit="{score}"/>
+                                </observation>
+                            </entryRelationship>
+                            <entryRelationship typeCode="COMP" contextConductionInd="true">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="9268-4" codeSystem="2.16.840.1.113883.6.1" displayName="Glasgow coma score motor"/>
+                                    <statusCode code="completed"/>
+                                    <value xsi:type="PQ" value="6" unit="{score}"/>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4035"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="acd020f6-6b00-4357-b476-e4ed97babefd"/>
+                            <code code="8329-5" codeSystem="2.16.840.1.113883.6.1" displayName="Body temperature - Core"/>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="20131219"/>
+                            <value xsi:type="PQ" value="37.5" unit="Cel"/>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Befunde / Verlauf / durchgeführte Therapie -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3054"/>
+                    <code code="67781-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Summarization of encounter note"/>
+                    <title>Befunde / Verlauf / durchgeführte Therapie</title>
+                    <text>
+                        <list>
+                            <item> Die körperliche Untersuchung ergibt keine pathologischen Auffälligkeiten.</item>
+                            <item ID="iso">Isolation: ja</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <procedure classCode="PROC" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4068"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="4eae6b41-738d-4410-93db-a2f64e5c2195"/>
+                            <code code="ISO" codeSystem="1.2.276.0.76.3.1.195.5.54" displayName="Isolation"/>
+                            <text>
+                                <reference value="#iso"/>
+                            </text>
+                            <statusCode code="completed"/>
+                            <entryRelationship typeCode="RSON">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.2.276.0.76.10.4069"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="bf17356b-858e-41b0-8a6d-c58213376e4a"/>
+                                    <code code="44100-6" codeSystem="2.16.840.1.113883.6.1" displayName="Medical Problem"/>
+                                    <statusCode code="completed"/>
+                                    <value xsi:type="CV" code="A09.9" codeSystem="2.16.840.1.113883.6.3"/>
+                                </observation>
+                            </entryRelationship>
+                        </procedure>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Abschlussdiagnosen -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3055"/>
+                    <code code="11301-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="ED diagnosis"/>
+                    <title>Abschlussdiagnosen</title>
+                    <text>
+                        <list>
+                            <item ID="diag-1">Akute Gastroenteritis durch Norovirus</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4048"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="aaf893eb-951a-469f-b65b-f19ba9ad0734"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern"/>
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="201501180757"/>
+                            </effectiveTime>
+                            <entryRelationship typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.2.276.0.76.10.4049"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="c51f49d7-ed1f-42b4-99ca-001751da1946"/>
+                                    <code code="29308-4" codeSystem="2.16.840.1.113883.6.1" displayName="Diagnosis"/>
+                                    <text>
+                                        <reference value="#diag-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low value="201501172300"/>
+                                    </effectiveTime>
+                                    <value xsi:type="CD" code="A08.1" codeSystem="1.2.276.0.76.5.424" codeSystemName="icd10gm2015" displayName="Akute Gastroenteritis durch Norovirus [Norwalk-Virus]">
+                                        <originalText>Akute Gastroenteritis durch Norovirus</originalText>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Weiteres Procedere / Therapieempfehlung / Weiterbehandler -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3056"/>
+                    <code code="67661-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="EMS disposition"/>
+                    <title>Weiteres Procedere / Therapieempfehlung / Weiterbehandler</title>
+                    <text>
+                        <list>
+                            <item>Empfehlung zum WHO-Durchfalldrink:</item>
+                            <item>Weiterbehandler: keiner</item>
+                        </list>
+                    </text>
+                </section>
+            </component>
+            
+        </structuredBody>
+    </component>
+    
+</ClinicalDocument>
