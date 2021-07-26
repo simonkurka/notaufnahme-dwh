@@ -18,7 +18,7 @@ jobs:
         run: debian/build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
       - name: Integration Test
         run: |
-          sudo dpkg -i debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb && \
+          sudo apt install ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb && \
           run-parts test/
       - name: Sign package
         env:
@@ -77,10 +77,10 @@ jobs:
           push: false
       - name: Integration Test on Docker images
         run: |
-          docker-compose -f docker/docker-compose.yaml up --no-build --detach
+          DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml up --no-build --detach
           sleep 120
           run-parts test/
-          docker-compose -f docker/docker-compose.yaml down
+          DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml down
       - name: Build and push docker image for ${{ github.job }} [httpd]
         uses: docker/build-push-action@v2
         with:
