@@ -78,7 +78,7 @@ jobs:
       - name: Integration Test on Docker images
         run: |
           DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml up --no-build --detach
-          sleep 120
+          sleep 30
           run-parts test/
           DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml down
       - name: Build and push docker image for ${{ github.job }} [httpd]
