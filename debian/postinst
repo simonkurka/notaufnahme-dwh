@@ -22,8 +22,6 @@ if [ "$RET" = "unix" ]; then
 	port="5432"
 	PSQL="sudo -u postgres psql"
 	echo "Connecting to postgres via local unix socket."
-	systemctl enable postgresql.service
-	systemctl start postgres.service
 else
 	db_get $DEBCONF_NAME/db_host
 	host="$RET"
@@ -38,16 +36,17 @@ else
 fi
 
 WAITCOUNT=0
-while [ ! eval "$PSQL -l" ]; do
+while [ ! systemctl start postgres.service ]; do
 	if [ $WAITCOUNT -lt 12 ]; then
-		echo -e "${BRED}Database not available. Waiting ...${RES}"
+		echo -e "${BRED}Database not yet installed. Waiting ...${RES}"
 		((WAITCOUNT++))
 		sleep 5
 	else
-		echo -e "${BRED}Database not available. Aborting ...${RES}"
+		echo -e "${BRED}Database not yet installed. Aborting ...${RES}"
 		exit 1
 	fi
 done
+systemctl enable postgresql.service
 
 if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 
