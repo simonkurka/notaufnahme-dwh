@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
+
 . /usr/share/debconf/confmodule
 DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
 
@@ -14,6 +22,8 @@ if [ "$RET" = "unix" ]; then
 	port="5432"
 	PSQL="sudo -u postgres psql"
 	echo "Connecting to postgres via local unix socket."
+	systemctl enable postgresql.service
+	systemctl start postgres.service
 else
 	db_get $DEBCONF_NAME/db_host
 	host="$RET"
@@ -25,6 +35,11 @@ else
 	pass="$RET"
 	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
 	echo "Connecting to postgres via TCP/IP to $host:$port."
+fi
+
+if [ ! eval "$PSQL -l" ]; then
+	echo -e "${BRED}Database not available. Aborting ...${RES}"
+	exit 1
 fi
 
 if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
