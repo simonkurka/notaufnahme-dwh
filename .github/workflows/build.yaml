@@ -19,9 +19,9 @@ jobs:
       - name: Integration Test
         run: |
           wget -qO i2b2.deb "$(curl --silent https://api.github.com/repos/simonkurka/notaufnahme-i2b2/releases/latest | grep -E '"browser_download_url": ".*/simonkurka-notaufnahme-i2b2_[0-9]+.[0-9]+.[0-9]+.deb"' | sed -E 's/.*"([^"]+)".*/\1/')"
-          sudo dpkg -i ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb && \
-          sudo apt update && sudo apt install -f && \
-          sudo dpkg -i ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb && \
+          sudo dpkg -i ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
+          sudo apt update && sudo apt install -f
+          sudo dpkg -i ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
           run-parts test/
       - name: Sign package
         env:
