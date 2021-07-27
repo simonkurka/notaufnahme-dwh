@@ -37,10 +37,17 @@ else
 	echo "Connecting to postgres via TCP/IP to $host:$port."
 fi
 
-if [ ! eval "$PSQL -l" ]; then
-	echo -e "${BRED}Database not available. Aborting ...${RES}"
-	exit 1
-fi
+WAITCOUNT=0
+while [ ! eval "$PSQL -l" ]; do
+	if [ $WAITCOUNT -lt 12 ]; then
+		echo -e "${BRED}Database not available. Waiting ...${RES}"
+		((WAITCOUNT++))
+		sleep 5
+	else
+		echo -e "${BRED}Database not available. Aborting ...${RES}"
+		exit 1
+	fi
+done
 
 if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 
