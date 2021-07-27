@@ -36,7 +36,7 @@ else
 fi
 
 WAITCOUNT=0
-while [ ! systemctl start postgres.service ]; do
+while ! systemctl start postgres.service; do
 	if [ $WAITCOUNT -lt 12 ]; then
 		echo -e "${BRED}Database not yet installed. Waiting ...${RES}"
 		((WAITCOUNT++))
