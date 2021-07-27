@@ -1,6 +1,14 @@
 #!/bin/bash
 set -e
 
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
+
 . /usr/share/debconf/confmodule
 DEBCONF_NAME=$(echo $DPKG_MAINTSCRIPT_PACKAGE | awk -F '-' '{print $1"-"$2}')
 
@@ -26,6 +34,19 @@ else
 	PSQL="psql postgresql://$user:$pass@$host:$port?sslmode=require"
 	echo "Connecting to postgres via TCP/IP to $host:$port."
 fi
+
+WAITCOUNT=0
+while ! systemctl start postgresql.service 2>/dev/null; do
+	if [ $WAITCOUNT -lt 12 ]; then
+		echo -e "${BRED}Database not yet installed. Waiting ...${RES}"
+		((WAITCOUNT++))
+		sleep 5
+	else
+		echo -e "${BRED}Database not yet installed. Aborting ...${RES}"
+		exit 1
+	fi
+done
+systemctl enable postgresql.service
 
 if  [[ $(eval "$PSQL -l" | grep "aktin" | wc -l) == 0 ]]; then
 

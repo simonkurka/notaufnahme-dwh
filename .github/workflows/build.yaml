@@ -16,6 +16,14 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build
         run: debian/build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
+      - name: Integration Test
+        run: |
+          sudo apt-add-repository ppa:ondrej/php --remove
+          sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $osLabel-cran40/" --remove
+          sudo apt update && sudo apt purge -y php-* r-*
+          wget -qO i2b2.deb "$(curl --silent https://api.github.com/repos/simonkurka/notaufnahme-i2b2/releases/latest | grep -m 1 -E '"browser_download_url": ".*/simonkurka-notaufnahme-i2b2_[0-9]+.[0-9]+.[0-9]+.deb"' | sed -E 's/.*"([^"]+)".*/\1/')"
+          sudo apt install -y ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
+          run-parts test/
       - name: Sign package
         env:
           GPG_SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
@@ -47,6 +55,36 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker image for ${{ github.job }} [httpd]
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/build/httpd
+          tags: |
+            ghcr.io/${{ github.repository }}-httpd:latest
+            ghcr.io/${{ github.repository }}-httpd:${{ steps.prep.outputs.version }}
+          push: false
+      - name: Build docker image for ${{ github.job }} [database]
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/build/database
+          tags: |
+            ghcr.io/${{ github.repository }}-database:latest
+            ghcr.io/${{ github.repository }}-database:${{ steps.prep.outputs.version }}
+          push: false
+      - name: Build docker image for ${{ github.job }} [wildfly]
+        uses: docker/build-push-action@v2
+        with:
+          context: docker/build/wildfly
+          tags: |
+            ghcr.io/${{ github.repository }}-wildfly:latest
+            ghcr.io/${{ github.repository }}-wildfly:${{ steps.prep.outputs.version }}
+          push: false
+      - name: Integration Test on Docker images
+        run: |
+          DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml up --no-build --detach
+          sleep 30
+          run-parts test/
+          DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml down
       - name: Build and push docker image for ${{ github.job }} [httpd]
         uses: docker/build-push-action@v2
         with:

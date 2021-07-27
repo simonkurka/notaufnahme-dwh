@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../stylesheets/CDA.xsl"?>
+<?xml-model href="../schematron-basis/aktin-basism20152b.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- 
+    AKTIN-Projekt
+    
+    Beispiel Storyboard 1: Einfache Distorsionsverletzung, unfallchirurgisch
+    Storyboard aktin-1
+    2015-04-09 KHeitmann
+    
+    Timo Kicker, geboren am 31.05.1996 in Dankbor, wohnhaft München, stellt sich am 17. Januar 2015 um 16:03 Uhr 
+    in der Notaufnahme des Krankenhauses selbst vor. Er hat beim Training des Fußballvereins mit dem linken Fuß 
+    ein Distorsionstrauma erlitten und wird von seinem Vereinskollegen humpelnd in die Notaufnahme gebracht. 
+    In der Notaufnahme wird kein Ersteinschätzungssystem eingesetzt. Als Leitsymptom wird die Verletzung der 
+    unteren Extremität mit CEDIS-Code 557 erhoben.
+    
+    Die vom Unfallchirurgen um 16:32 Uhr erhobene Anamnese ergibt keine weiteren Vorerkrankungen, keine Allergien 
+    und keine regelmäßigen Medikamenteneinnahmen. Es werden in Anbetracht der Verletzungsschwere keine Vitalparameter
+    wie Atemfrequenz, Herzfrequenz oder Blutdruck erhoben. An Diagnostik wird eine Röntgenuntersuchung des
+    Sprunggelenks durchgeführt um 16:50 Uhr durchgeführt. Nach erfolgtem Ausschluss einer Fraktur wird um
+    17:14 als Therapie eine Sprunggelenkorthese angelegt und der Patient um 17:35 in die hausärztliche Versorgung
+    entlassen. Als Entlassungsdiagnose wird die S93.6 „Distorsion unteres Sprunggelenk“ gestellt.
+    
+-->
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdtc="urn:hl7-org:sdtc" xsi:schemaLocation="urn:hl7-org:v3 ../schemas/CDA.xsd">
+    <!--
+        CDA Header
+    -->
+    <!-- Realmcode (fix) -->
+    <realmCode code="DE"/>
+    <!-- Type Id (fix) -->
+    <typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+    <!-- Template Id (fix) -->
+    <templateId root="1.2.276.0.76.10.1019"/>
+    <!-- Identifikation des Dokuments -->
+    <id root="1.2.276.0.76.4.17.9814184919" extension="14025fda-3f25-4c64-8883-4f7e6cabc0b6"/>
+    <!-- Fixer Dokumententype-Code -->
+    <code code="68552-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Emergency medicine Emergency department Admission evaluation note"/>
+    <!-- Datum und Zeit der Erstellung -->
+    <effectiveTime value="20150117163300"/>
+    <!-- Vertraulichkeitsstufe -->
+    <confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+    <!-- Sprache und Länderkennung -->
+    <languageCode code="de-DE"/>
+    <!-- Set-ID und Versionsnummer des Dokuments -->
+    <setId root="1.2.276.0.76.4.17.9814184919" extension="0ff0f2d6-ddc2-4300-a5e6-b0aecd1a7dcf"/>
+    <versionNumber value="1"/>
+    
+    <!-- Patient -->
+    <recordTarget typeCode="RCT" contextControlCode="OP">
+        <patientRole classCode="PAT">
+            <!-- Identifikation -->
+            <id extension="1234567890" root="1.2.276.0.76.4.8"/>
+            <!-- Adresse -->
+            <addr>
+                <streetAddressLine>Dachauer Straße 112</streetAddressLine>
+                <postalCode>80636</postalCode>
+                <city>München</city>
+            </addr>
+            <patient classCode="PSN" determinerCode="INSTANCE">
+                <!-- Name -->
+                <name>
+                    <given>Timo</given>
+                    <family>Kicker</family>
+                </name>
+                <!-- Geschlecht -->
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <!-- Geburtsdatum -->
+                <birthTime value="19960531"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    
+    <!-- Author -->
+    <author typeCode="AUT" contextControlCode="OP">
+        <time value="20150117160900"/>
+        <assignedAuthor classCode="ASSIGNED">
+            <id root="1.2.276.0.76.3.2.123456789"/>
+            <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                <name>
+                    <prefix>Dr. med. </prefix>
+                    <given>Martin</given>
+                    <family>Regensburger</family>
+                </name>
+            </assignedPerson>
+            <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                <id root="1.2.276.0.76.4.17" extension="9814184919"/>
+                <name>Städtisches Klinikum München GmbH</name>
+            </representedOrganization>
+        </assignedAuthor>
+    </author>
+    
+    <!-- Verwaltungsorganisation des Dokuments -->
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <id root="1.2.276.0.76.4.17" extension="9814184919"/>
+                <name>Städtisches Klinikum München GmbH</name>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    
+    <!-- Aufnahme -->
+    <documentationOf typeCode="DOC">
+        <serviceEvent classCode="ACT" moodCode="EVN">
+            <!-- Behandlung -->
+            <effectiveTime>
+                <!-- Start der Behandlung (Datum und Zeit), Zeitangabe genau bis auf die Minute -->
+                <low value="20150117160300"/>
+                <!-- Verlegungs-/Entlassungszeitpunkt (Datum und Zeit), Zeitangabe genau bis auf die Minute-->
+                <high value="20150117173500"/>
+            </effectiveTime>
+            <performer typeCode="PRF">
+                <!-- Erster Arzt, Arztkontakt Beginn und Ende -->
+                <time>
+                    <!-- Begin des Arztkontaktes -->
+                    <low value="201501171632"/>
+                    <!-- Ende des Arztkontaktes -->
+                    <high value="201501171714"/>
+                </time>
+                <assignedEntity classCode="ASSIGNED">
+                    <id nullFlavor="NA"/>
+                </assignedEntity>
+            </performer>
+        </serviceEvent>
+    </documentationOf>
+    
+    <!-- Patientenkontakt -->
+    <componentOf>
+        <encompassingEncounter classCode="ENC" moodCode="EVN">
+            <effectiveTime>
+                <!-- Start Patientenkontakt -->
+                <low value="201501171603"/>
+                <!-- Ende Patientenkontakt = Zeitpunkt der Verlegung/Entlassung -->
+                <high value="201501171735"/>
+            </effectiveTime>
+            <!-- Entlassung des Patienten mit Entlassungsgrund -->
+            <dischargeDispositionCode code="4" codeSystem="1.2.276.0.76.3.1.195.5.56"/>
+        </encompassingEncounter>
+    </componentOf>
+    
+    <!--
+        CDA Body
+    -->
+    <component>
+        <structuredBody>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Transportmittel -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3045"/>
+                    <code code="11459-5" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Transport mode"/>
+                    <title>Transportmittel</title>
+                    <text>Ohne</text>
+                    <entry typeCode="COMP">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4037"/>
+                            <code code="11459-5" codeSystem="2.16.840.1.113883.6.1" displayName="Transport method"/>
+                            <statusCode code="completed"/>
+                            <!-- Optional: Ankunftszeit -->
+                            <effectiveTime>
+                                <high value="201501171603"/>
+                            </effectiveTime>
+                            <value xsi:type="CV" nullFlavor="NA"/>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Notfallanamnese -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3053"/>
+                    <code code="10164-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of present illness"/>
+                    <title>Notfallanamnese</title>
+                    <text>Pat hat beim Training des Fußballvereins mit dem linken Fuß ein Distorsionstrauma erlitten und wurde von seinem Vereinskollegen humpelnd in die Notaufnahme gebracht. Als Leitsymptom wird die Verletzung der unteren Extremität mit CEDIS-Code 557 erhoben. Anamnese ergibt keine weiteren Vorerkrankungen, keine Allergien und keine regelmäßigen Medikamenteneinnahmen. Vitalparameter nicht erhoben</text>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Beschwerden bei Vorstellung -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3048"/>
+                    <code code="46239-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Chief complaint+Reason for visit"/>
+                    <title>Beschwerden bei Vorstellung</title>
+                    <text>
+                        <content ID="compl-1">Distorsionstrauma linker Fuß</content>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4039"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="b2e0e192-416a-4e9c-97ce-2f3e279826e9"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern"/>
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="20150117"/>
+                            </effectiveTime>
+                            <entryRelationship typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.2.276.0.76.10.4040"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="08edb7c0-2111-43f2-a784-9a5fdfaa67f0"/>
+                                    <code code="75322-8" codeSystem="2.16.840.1.113883.6.1" displayName="Complaint"/>
+                                    <text>
+                                        <reference value="#compl-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <width value="1" unit="h"/>
+                                    </effectiveTime>
+                                    <value xsi:type="CE" code="5572" codeSystem="1.2.276.0.76.5.439" displayName="Lower extremity injury">
+                                        <originalText>Distorsionstrauma linker Fuß</originalText>
+                                    </value>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Diagnostik -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3050"/>
+                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Relevant diagnostic tests &amp;or laboratory data"/>
+                    <title>Diagnostik</title>
+                    <text>
+                        <list>
+                            <item ID="proc-4">Röntgenuntersuchung des Sprunggelenks: einfache Distorsionsverletzung</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP" contextConductionInd="true">
+                        <observation classCode="OBS" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4053"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="944cd73e-4361-4fca-929b-9a404b063651"/>
+                            <code code="37637-6" codeSystem="2.16.840.1.113883.6.1" displayName="Extremity X-ray"/>
+                            <text>
+                                <reference value="#proc-4"/>
+                            </text>
+                            <statusCode code="completed"/>
+                            <effectiveTime value="201501171650"/>
+                            <value xsi:type="CE" code="OPB" codeSystem="1.2.276.0.76.3.1.195.5.51" displayName="ohne path. Befund"/>
+                            <participant typeCode="LOC">
+                                <participantRole classCode="SDLOC">
+                                    <code code="ER" codeSystem="2.16.840.1.113883.5.111" displayName="Notaufnahme"/>
+                                </participantRole>
+                            </participant>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Allergien, Unverträglichkeiten -->
+                <section classCode="DOCSECT" moodCode="EVN">
+                    <templateId root="1.2.276.0.76.10.3051"/>
+                    <code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Allergies &amp;or adverse reactions"/>
+                    <title>Allergien und Unverträglichkeiten</title>
+                    <text>
+                        <list>
+                            <item ID="alg">Allergien: nein</item>
+                            <item ID="int">Unverträglichkeiten: nein</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4065"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="15100194-6d6e-4b00-a4d8-effeb66596b4"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6"/>
+                            <statusCode code="active"/>
+                            <!-- This is the time stamp for when the allergy was first documented as a concern-->
+                            <effectiveTime>
+                                <low value="20150117"/>
+                            </effectiveTime>
+                            <entryRelationship typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN" negationInd="true">
+                                    <templateId root="1.2.276.0.76.10.4066"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="c9599ec1-6077-4f74-b58e-80c4148efbd8"/>
+                                    <code code="ASSERTION" codeSystem="2.16.840.1.113883.5.4"/>
+                                    <statusCode code="completed"/>
+                                    <!-- N/A - author/time records when this assertion was made -->
+                                    <effectiveTime nullFlavor="NA"/>
+                                    <value xsi:type="CV" code="OINT" codeSystem="2.16.840.1.113883.5.4" displayName="adverse reaction upon exposure to an agent"/>
+                                    <participant typeCode="CSM">
+                                        <participantRole classCode="MANU">
+                                            <playingEntity classCode="MMAT">
+                                                <code code="ALGN" codeSystem="1.2.276.0.76.3.1.195.5.52" displayName="Allergen">
+                                                    <originalText>
+                                                        <reference value="#alg-4"/>
+                                                    </originalText>
+                                                </code>
+                                            </playingEntity>
+                                        </participantRole>
+                                    </participant>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <!-- Abschlussdiagnosen -->
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3055"/>
+                    <code code="11301-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="ED diagnosis"/>
+                    <title>Abschlussdiagnosen</title>
+                    <text>
+                        <list>
+                            <item ID="diag-1">Distorsion unteres Sprunggelenk (S96.3)</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="EVN">
+                            <templateId root="1.2.276.0.76.10.4048"/>
+                            <id root="1.2.276.0.76.4.17.9814184919" extension="4193be05-5a9a-4e94-ad03-e35c0c5ca739"/>
+                            <code code="CONC" codeSystem="2.16.840.1.113883.5.6" displayName="Concern"/>
+                            <statusCode code="active"/>
+                            <effectiveTime>
+                                <low value="20150117"/>
+                            </effectiveTime>
+                            <entryRelationship typeCode="SUBJ">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <templateId root="1.2.276.0.76.10.4049"/>
+                                    <id root="1.2.276.0.76.4.17.9814184919" extension="45f99818-637b-4be7-bc22-a7041c1cf813"/>
+                                    <code code="DX" codeSystem="2.16.840.1.113883.5.4" displayName="Diagnosis"/>
+                                    <text>
+                                        <reference value="#diag-1"/>
+                                    </text>
+                                    <statusCode code="completed"/>
+                                    <effectiveTime>
+                                        <low value="20150117"/>
+                                    </effectiveTime>
+                                    <value xsi:type="CD" code="S93.6" codeSystem="1.2.276.0.76.5.424" codeSystemName="icd10gm2015" displayName="Verstauchung und Zerrung sonstiger und nicht näher bezeichneter Teile des Fußes"/>
+                                </observation>
+                            </entryRelationship>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+            <component typeCode="COMP" contextConductionInd="true">
+                <section classCode="DOCSECT">
+                    <templateId root="1.2.276.0.76.10.3056"/>
+                    <code code="67661-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="EMS disposition"/>
+                    <title>Weiteres Procedere / Therapieempfehlung / Weiterbehandler</title>
+                    <text>
+                        <list>
+                            <item ID="refact">Weiterbehandler: Hausarzt</item>
+                        </list>
+                    </text>
+                    <entry typeCode="COMP">
+                        <act classCode="ACT" moodCode="INT">
+                            <templateId root="1.2.276.0.76.10.4067"/>
+                            <code code="4" codeSystem="1.2.276.0.76.3.1.195.5.53" displayName="extern: Überwachung (ICU / IMC / Chest-Pain-Unit / Stroke)"/>
+                            <text>
+                                <reference value="#refact"/>
+                            </text>
+                        </act>
+                    </entry>
+                </section>
+            </component>
+            
+        </structuredBody>
+    </component>
+</ClinicalDocument>

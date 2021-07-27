@@ -1,0 +1,139 @@
+1000;124;good + 2 departments;28
+1001;125;no ik;25
+1002;126;other ik;26
+1003;127;no birthyear;24
+1004;128;wrong birthyear;24
+1005;129;wrong birthyear;24
+1006;130;sex w;26
+1007;131;sex d;26
+1008;132;sex x;26
+1009;133;wrong sex;25
+1010;134;no sex;25
+1011;135;no plz;25
+1012;136;wrong plz;25
+1013;137;wrong plz;25
+1014;138;cause E;26
+1015;139;cause Z;26
+1016;140;cause R;26
+1017;141;cause V;26
+1018;142;cause A;26
+1019;143;cause G;26
+1020;144;cause B;26
+1021;145;wrong cause;0
+1022;146;no cause;0
+1023;147;reason 0202;26
+1024;148;reason 0303;26
+1025;149;reason 0404;26
+1026;150;reason 0505;26
+1027;151;reason 0606;26
+1028;152;reason 0808;26
+1029;153;reason 1010;26
+1030;154;wrong reason;0
+1031;155;no reason;0
+1032;156;"merge ""no""";25
+1033;157;wrong merge;25
+1034;158;no merge;25
+1035;159;merge reason MD;26
+1036;160;merge reason KO;26
+1037;161;merge reason RU;26
+1038;162;merge reason WR;26
+1039;163;merge reason MF;26
+1040;164;merge reason PW;26
+1041;165;merge reason PR;26
+1042;166;merge reason PM;26
+1043;167;merge reason ZO;26
+1044;168;merge reason ZM;26
+1045;169;merge reason ZK;26
+1046;170;merge reason ZR;26
+1047;171;merge reason ZW;26
+1048;172;wrong merge reason;25
+1049;173;no merge reason;25
+1050;174;Intensive 10.25;26
+1051;175;wrong intensive;25
+1052;176;no intensive;25
+1053;177;no admission date;0
+1054;178;wrong admission date;0
+1055;179;wrong admission date;0
+1056;180;no discharge date;25
+1057;181;wrong discharge date;25
+1058;182;wrong discharge date;25
+1058;183;no discharge reason;25
+1060;184;discharge reason 299;26
+1061;185;discharge reason 289;26
+1062;186;discharge reason 269;26
+1063;187;discharge reason 119;26
+1064;188;wrong discharge reason;25
+1065;189;Ventilation 10.25;26
+1066;190;wrong ventilation;25
+1067;191;no ventilation;25
+1068;192;no prestation;25
+1069;193;wrong prestation;25
+1070;194;wrong prestation;25
+1071;195;wrong prestation;25
+1072;196;no poststation;25
+1073;197;wrong poststation;25
+1074;198;wrong poststation;25
+1075;199;wrong poststation;25
+1076;200;prestation days 5.5;26
+1077;201;wrong prestation days;26
+1078;202;no prestation days;26
+1079;203;poststation days 5.5;26
+1080;204;wrong poststaion days;26
+1081;205;no poststation days;26
+1082;206;no department;25
+1083;207;wrong department;25
+1084;208;wrong department;25
+1085;209;no department admission;25
+1086;210;wrong department admission;25
+1087;211;wrong department admission;25
+1088;212;no department discharge;26
+1089;213;wrong department discharge;26
+1090;214;wrong department discharge;26
+1091;215;"department intensive ""J""";26
+1092;216;no department intensive;25
+1093;217;wrong department intensive;25
+1094;218;HD + ND;32
+1095;219;wrong diagnosis + sek;20
+1096;220;no diagnosis + sek;20
+1097;221;no icd version + sek;20
+1098;222;wrong icd version + sek;20
+1099;223;icd code without delimiter + sek;33
+1100;224;no icd code + sek;20
+1101;225;wrong icd code + sek;20
+1102;226;localisation L + sek;33
+1103;227;localisation R + sek;33
+1104;228;wrong localisation + sek;32
+1105;229;no localisation + sek;32
+1106;230;diagnosis security V + sek;33
+1107;231;diagnosis security Z + sek;33
+1108;232;diagnosis security G + sek;33
+1109;233;no diagnosis security + sek;32
+1110;234;wrong diagnosis security + sek;32
+1111;235;sek code B33.33;33
+1112;236;sek code C3333;33
+1113;237;wrong sek code;26
+1114;238;no sek code;26
+1115;239;sek localisation L;33
+1116;240;sek localisation R;33
+1117;241;wrong sek localisation;32
+1118;242;no sek localisation;32
+1119;243;sek diagnosis security V;33
+1120;244;sek diagnosis security Z;33
+1121;245;sek diagnosis security G;33
+1122;246;no sek diagnosis security;32
+1123;247;wrong sek diagnosis security;32
+1124;248;no ops version;23
+1125;249;wrong ops version;23
+1126;250;ops code 9-64922;26
+1127;251;ops code 9649.22;26
+1128;252;ops code 964922;26
+1129;253;wrong ops code;23
+1130;254;no ops code;23
+1131;255;ops localisation R;26
+1132;256;ops localisation L;26
+1133;257;no ops localisation;25
+1134;258;wrong ops localisation;25
+1135;259;wrong ops date;23
+1136;260;wrong ops date;23
+1137;261;no ops date;23
+1138;262;wrong ops date;23
