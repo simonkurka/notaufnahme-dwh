@@ -1,0 +1,40 @@
+#!/bin/bash
+set -eE
+
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
+
+trap "echo -e \"${BRED}${0} failed!${RES}\""
+
+#
+# Setup
+#
+GREENMAIL=$(docker run -d -t -i -p 3025:3025 -p 3110:3110 -p 3143:3143 -p 3465:3465 -p 3993:3993 -p 3995:3995 -p 8080:8080 greenmail/standalone:1.6.4)
+
+#
+# Test
+#
+curl -X POST localhost/aktin/admin/rest/test/email/send
+
+#
+# Assert Mail exists
+#
+( cat <<EOF; sleep 1; ) | telnet localhost 3143 2>/dev/null | grep -q "* 1 EXISTS"
+. LOGIN zna-contact@klinikum-beipielhausen.de zna-contact@klinikum-beipielhausen.de
+. SELECT INBOX
+. LOGOUT
+EOF
+
+#
+# Cleanup
+#
+docker stop $GREENMAIL
+docker rm $GREENMAIL
+
+echo -e "${BGRE}${0} succeeded!${RES}"
+
