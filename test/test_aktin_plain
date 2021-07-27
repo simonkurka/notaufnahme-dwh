@@ -2,12 +2,13 @@
 
 set -euo pipefail
 
-# colors for console output
-readonly WHI=${color_white}
-readonly RED=${color_red}
-readonly ORA=${color_orange}
-readonly YEL=${color_yellow}
-readonly GRE=${color_green}
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
 
 # destination url for plain testing
 URL="http://localhost:80/aktin/admin/rest/test/"
@@ -25,9 +26,9 @@ do
 
 	# check response for code 200, print whole response on failure (via new request)
 	if [[ $RESPONSE_CODE == 200 ]]; then
-		echo -e "${GRE}Test $i successful ($RESPONSE_CODE)${WHI}"
+		echo -e "${GRE}Test $i successful ($RESPONSE_CODE)${RES}"
 	else
-		echo -e "${RED}Test $i ($RESPONSE_CODE)${WHI}"
+		echo -e "${RED}Test $i ($RESPONSE_CODE)${RES}"
 		if [[ $i == "broker/status" ]]; then
 			echo $(curl -s --request GET $URL$i)
 		else

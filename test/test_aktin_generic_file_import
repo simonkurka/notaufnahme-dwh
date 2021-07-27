@@ -7,12 +7,13 @@ readonly INTEGRATION_BINARIES=$INTEGRATION_ROOT/binaries
 readonly INTEGRATION_PROPERTIES=$INTEGRATION_ROOT/properties
 readonly INTEGRATION_XML=$INTEGRATION_ROOT/xml
 
-# colors for console output
-readonly WHI=${color_white}
-readonly RED=${color_red}
-readonly ORA=${color_orange}
-readonly YEL=${color_yellow}
-readonly GRE=${color_green}
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
 
 # destination url
 URL='http://localhost:80/aktin/admin/rest'
@@ -26,9 +27,9 @@ BEARER_TOKEN=$(curl -s --location --request POST $URL/auth/login/ --header 'Cont
 # # # # # # # # #
 COUNT_SCRIPTS=$(echo $(curl -s --location --request GET $URL/script | grep -o 'id' | wc -l))
 if [[ $COUNT_SCRIPTS == 5 ]]; then
-    echo -e "${GRE}GET scripts successful (GOT $COUNT_SCRIPTS)${WHI}"
+    echo -e "${GRE}GET scripts successful (GOT $COUNT_SCRIPTS)${RES}"
 else
-    echo -e "${RED}GET scripts failed (GOT $COUNT_SCRIPTS)${WHI}"
+    echo -e "${RED}GET scripts failed (GOT $COUNT_SCRIPTS)${RES}"
     echo $(curl -s --request GET $URL/script)
     exit 1
 fi
@@ -41,9 +42,9 @@ for i in "${!ID_SCRIPTS[@]}"
 do
     RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' -F "data=@$INTEGRATION_BINARIES/p21.zip" --location --request POST ''$URL'/file?scriptId='${ID_SCRIPTS[$i]}'&filename=FILE_'$i'' --header 'Authorization: Bearer '$BEARER_TOKEN'')
     if [[ $RESPONSE_CODE == 201 ]]; then
-	    echo -e "${GRE}UPLOAD of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+	    echo -e "${GRE}UPLOAD of FILE_$i successful ($RESPONSE_CODE)${RES}"
     else
-	    echo -e "${RED}UPLOAD of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+	    echo -e "${RED}UPLOAD of FILE_$i failed ($RESPONSE_CODE)${RES}"
 	    exit 1
     fi
 done
@@ -53,9 +54,9 @@ done
 # # # # # # # # #
 COUNT_FILES=$(echo $(curl -s --location --request GET $URL/file | grep -o 'id' | wc -l))
 if [[ $COUNT_FILES == 5 ]]; then
-    echo -e "${GRE}GET file successful (GOT $COUNT_FILES)${WHI}"
+    echo -e "${GRE}GET file successful (GOT $COUNT_FILES)${RES}"
 else
-    echo -e "${RED}GET file failed (GOT $COUNT_FILES)${WHI}"
+    echo -e "${RED}GET file failed (GOT $COUNT_FILES)${RES}"
     echo $(curl -s --location --request GET $URL/file)
     exit 1
 fi
@@ -76,9 +77,9 @@ for i in "${!ID_SCRIPTS[@]}"
 do
     RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' --location --request POST $URL/script/${UUID_SCRIPTS[$i]}/verify --header 'Authorization: Bearer '$BEARER_TOKEN'')
     if [[ $RESPONSE_CODE == 204 ]]; then
-	    echo -e "${GRE}VERIFY of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+	    echo -e "${GRE}VERIFY of FILE_$i successful ($RESPONSE_CODE)${RES}"
     else
-	    echo -e "${RED}VERIFY of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+	    echo -e "${RED}VERIFY of FILE_$i failed ($RESPONSE_CODE)${RES}"
 	    exit 1
     fi
 done
@@ -96,9 +97,9 @@ for i in "${!ID_SCRIPTS[@]}"
 do
     OPERATION=$(grep '^operation=' /var/lib/aktin/import/${UUID_SCRIPTS[$i]}/properties | cut -d'=' -f2)
     if [[ $OPERATION == 'verifying' ]]; then
-        echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed operation to verifying${WHI}"
+        echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed operation to verifying${RES}"
     else
-        echo -e "${RED}${UUID_SCRIPTS[$i]} has operation $OPERATION (should be verifying)${WHI}"
+        echo -e "${RED}${UUID_SCRIPTS[$i]} has operation $OPERATION (should be verifying)${RES}"
 	    exit 1
     fi
 
@@ -106,25 +107,25 @@ do
     case "${ID_SCRIPTS[$i]}" in
     'error' | 'exit')
         if [[ $STATE == 'failed' ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to failed${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to failed${RES}"
         else
-            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be failed)${WHI}"
+            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be failed)${RES}"
 	        exit 1
         fi
         ;;
     'sleep')
         if [[ $STATE == 'timeout' ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to timeout${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to timeout${RES}"
         else
-            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be timeout)${WHI}"
+            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be timeout)${RES}"
 	        exit 1
         fi
         ;;
     'success' | 'p21import')
         if [[ $STATE == 'successful' ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to successful${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} successfully changed state to successful${RES}"
         else
-            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be successful)${WHI}"
+            echo -e "${RED}${UUID_SCRIPTS[$i]} has state $STATE (should be successful)${RES}"
 	        exit 1
         fi
         ;;
@@ -138,9 +139,9 @@ PATH_LOG=/var/lib/aktin/import
 for i in "${!ID_SCRIPTS[@]}"
 do
     if [[ -f $PATH_LOG/${UUID_SCRIPTS[$i]}/stdOutput && -f $PATH_LOG/${UUID_SCRIPTS[$i]}/stdError ]]; then
-        echo -e "${GRE}Script logs for ${UUID_SCRIPTS[$i]} found${WHI}"
+        echo -e "${GRE}Script logs for ${UUID_SCRIPTS[$i]} found${RES}"
     else
-        echo -e "${RED}No script logs for ${UUID_SCRIPTS[$i]} found${WHI}"
+        echo -e "${RED}No script logs for ${UUID_SCRIPTS[$i]} found${RES}"
     fi
 
     LOG_ERROR=$(curl -s --request GET $URL/file/${UUID_SCRIPTS[$i]}/log | jq '.[] | select(.type=="stdError") | .text' | cut -d "\"" -f 2)
@@ -149,25 +150,25 @@ do
     case "${ID_SCRIPTS[$i]}" in
     'error' | 'exit')
         if [[ ! -z $LOG_ERROR && -z $LOG_OUTPUT ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} has an error log and an empty output log${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} has an error log and an empty output log${RES}"
         else
-            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${WHI}"
+            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${RES}"
 	        exit 1
         fi
         ;;
     'sleep')
         if [[ -z $LOG_ERROR && -z $LOG_OUTPUT ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} has empty logs${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} has empty logs${RES}"
         else
-            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${WHI}"
+            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${RES}"
 	        exit 1
         fi
         ;;
     'success' | 'p21import')
         if [[ -z $LOG_ERROR && ! -z $LOG_OUTPUT ]]; then
-            echo -e "${GRE}${UUID_SCRIPTS[$i]} has an output log and an empty error log${WHI}"
+            echo -e "${GRE}${UUID_SCRIPTS[$i]} has an output log and an empty error log${RES}"
         else
-            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${WHI}"
+            echo -e "${RED}Something is wrong with the logs of ${UUID_SCRIPTS[$i]}${RES}"
 	        exit 1
         fi
         ;;
@@ -178,53 +179,53 @@ done
 # check cancelling of file processing
 # # # # # # # # #
 if [[ $(curl -s --request GET $URL/script/queue) == 0 ]]; then
-    echo -e "${GRE}Queue is currently empty${WHI}"
+    echo -e "${GRE}Queue is currently empty${RES}"
 else
-    echo -e "${ORA}Queue is not empty${WHI}"
+    echo -e "${YEL}Queue is not empty${RES}"
 fi
 
 RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' --location --request POST $URL/script/$ID_SLEEP/verify --header 'Authorization: Bearer '$BEARER_TOKEN'')
 if [[ $RESPONSE_CODE == 204 ]]; then
-    echo -e "${GRE}VERIFY of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+    echo -e "${GRE}VERIFY of FILE_$i successful ($RESPONSE_CODE)${RES}"
     sleep 2s
 else
-    echo -e "${RED}VERIFY of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+    echo -e "${RED}VERIFY of FILE_$i failed ($RESPONSE_CODE)${RES}"
     exit 1
 fi
 
 OPERATION=$(grep '^operation=' /var/lib/aktin/import/$ID_SLEEP/properties | cut -d'=' -f2)
 if [[ $OPERATION == 'verifying' ]]; then
-    echo -e "${GRE}$ID_SLEEP successfully changed operation to verifying${WHI}"
+    echo -e "${GRE}$ID_SLEEP successfully changed operation to verifying${RES}"
 else
-    echo -e "${ORA}$ID_SLEEP has operation $OPERATION (should be verifying)${WHI}"
+    echo -e "${YEL}$ID_SLEEP has operation $OPERATION (should be verifying)${RES}"
 fi
 
 STATE=$(grep '^state=' /var/lib/aktin/import/$ID_SLEEP/properties | cut -d'=' -f2)
 if [[ $STATE == 'in_progress' ]]; then
-    echo -e "${GRE}$ID_SLEEP successfully changed state to in_progress${WHI}"
+    echo -e "${GRE}$ID_SLEEP successfully changed state to in_progress${RES}"
 else
-    echo -e "${ORA}$ID_SLEEP has state $STATE (should be in_progress)${WHI}"
+    echo -e "${YEL}$ID_SLEEP has state $STATE (should be in_progress)${RES}"
 fi
 
 RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' --location --request POST $URL/script/$ID_SLEEP/cancel --header 'Authorization: Bearer '$BEARER_TOKEN'')
 if [[ $RESPONSE_CODE == 204 ]]; then
-    echo -e "${GRE}CANCEL of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+    echo -e "${GRE}CANCEL of FILE_$i successful ($RESPONSE_CODE)${RES}"
 else
-    echo -e "${RED}CANCEL of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+    echo -e "${RED}CANCEL of FILE_$i failed ($RESPONSE_CODE)${RES}"
     exit 1
 fi
 
 STATE=$(grep '^state=' /var/lib/aktin/import/$ID_SLEEP/properties | cut -d'=' -f2)
 if [[ $STATE == 'cancelled' ]]; then
-    echo -e "${GRE}$ID_SLEEP successfully changed state to cancelled${WHI}"
+    echo -e "${GRE}$ID_SLEEP successfully changed state to cancelled${RES}"
 else
-    echo -e "${ORA}$ID_SLEEP has state $STATE (should be cancelled)${WHI}"
+    echo -e "${YEL}$ID_SLEEP has state $STATE (should be cancelled)${RES}"
 fi
 
 if [[ $(curl -s --request GET $URL/script/queue) == 0 ]]; then
-    echo -e "${GRE}Queue is currently empty${WHI}"
+    echo -e "${GRE}Queue is currently empty${RES}"
 else
-    echo -e "${RED}Queue is not empty${WHI}"
+    echo -e "${RED}Queue is not empty${RES}"
     exit 1
 fi
 
@@ -242,13 +243,13 @@ do
 	RESPONSE_CODE=$(echo $RESPONSE | grep -oP '(?<=Response code: )[0-9]+')
     case "$RESPONSE_CODE" in
     200)
-        echo -e "${GRE}Updated patient P$x${WHI}"
+        echo -e "${GRE}Updated patient P$x${RES}"
         ;;
     201)
-        echo -e "${GRE}Imported patient P$x${WHI}"
+        echo -e "${GRE}Imported patient P$x${RES}"
         ;;
     *)
-		echo -e "${RED}Upload of patient P$x failed ($RESPONSE_CODE)${WHI}"
+		echo -e "${RED}Upload of patient P$x failed ($RESPONSE_CODE)${RES}"
 		echo $RESPONSE
 		exit 1
         ;;
@@ -259,9 +260,9 @@ done
 # check uploaded patients in the current day (should be not zero)
 # # # # # # # # #
 if [[ $(sudo -u postgres psql -d i2b2 -v ON_ERROR_STOP=1 -c "SELECT import_date FROM i2b2crcdata.encounter_mapping" | grep -c "$CURRENT_DAY") != 0 ]]; then
-	echo -e "${GRE} --> new entries in i2b2 detected${WHI}"
+	echo -e "${GRE} --> new entries in i2b2 detected${RES}"
 else
-	echo -e "${RED} --> no new entries in i2b2 detected${WHI}"
+	echo -e "${RED} --> no new entries in i2b2 detected${RES}"
 fi
 
 # # # # # # # # #
@@ -269,9 +270,9 @@ fi
 # # # # # # # # #
 COUNT_P21=$(sudo -u postgres psql -X -A -d i2b2 -v ON_ERROR_STOP=1 -t -c "SELECT COUNT(provider_id) FROM i2b2crcdata.observation_fact WHERE provider_id='P21'")
 if [[ $COUNT_P21 == 0 ]]; then
-    echo -e "${GRE}No imported P21 data found${WHI}"
+    echo -e "${GRE}No imported P21 data found${RES}"
 else
-    echo -e "${RED}P21 are already imported (found $COUNT_P21)${WHI}"
+    echo -e "${RED}P21 are already imported (found $COUNT_P21)${RES}"
     exit 1
 fi
 
@@ -280,9 +281,9 @@ fi
 # # # # # # # # #
 RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' --location --request POST $URL/script/$ID_P21IMPORT/import --header 'Authorization: Bearer '$BEARER_TOKEN'')
 if [[ $RESPONSE_CODE == 204 ]]; then
-    echo -e "${GRE}IMPORT of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+    echo -e "${GRE}IMPORT of FILE_$i successful ($RESPONSE_CODE)${RES}"
 else
-    echo -e "${RED}IMPORT of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+    echo -e "${RED}IMPORT of FILE_$i failed ($RESPONSE_CODE)${RES}"
     exit 1
 fi
 
@@ -294,17 +295,17 @@ sleep 20s
 # # # # # # # # #
 OPERATION=$(grep '^operation=' /var/lib/aktin/import/$ID_P21IMPORT/properties | cut -d'=' -f2)
 if [[ $OPERATION == 'importing' ]]; then
-    echo -e "${GRE}$ID_P21IMPORT successfully changed operation to importing${WHI}"
+    echo -e "${GRE}$ID_P21IMPORT successfully changed operation to importing${RES}"
 else
-    echo -e "${RED}$ID_P21IMPORT has operation $OPERATION (should be importing)${WHI}"
+    echo -e "${RED}$ID_P21IMPORT has operation $OPERATION (should be importing)${RES}"
     exit 1
 fi
 
 STATE=$(grep '^state=' /var/lib/aktin/import/$ID_P21IMPORT/properties | cut -d'=' -f2)
 if [[ $STATE == 'successful' ]]; then
-    echo -e "${GRE}$ID_P21IMPORT successfully changed state to successful${WHI}"
+    echo -e "${GRE}$ID_P21IMPORT successfully changed state to successful${RES}"
 else
-    echo -e "${RED}$ID_P21IMPORT has state $STATE (should be successful)${WHI}"
+    echo -e "${RED}$ID_P21IMPORT has state $STATE (should be successful)${RES}"
     exit 1
 fi
 
@@ -313,9 +314,9 @@ fi
 # # # # # # # # #
 COUNT_P21=$(sudo -u postgres psql -X -A -d i2b2 -v ON_ERROR_STOP=1 -t -c "SELECT COUNT(provider_id) FROM i2b2crcdata.observation_fact WHERE provider_id='P21'")
 if [[ $COUNT_P21 != 0 ]]; then
-    echo -e "${GRE}New imported P21 data found (found $COUNT_P21)${WHI}"
+    echo -e "${GRE}New imported P21 data found (found $COUNT_P21)${RES}"
 else
-    echo -e "${RED}}No imported P21 data found${WHI}"
+    echo -e "${RED}}No imported P21 data found${RES}"
     exit 1
 fi
 
@@ -334,9 +335,9 @@ do
     if [[ ! -z $ENC_NUM ]]; then
         COUNT_P21=$(sudo -u postgres psql -X -A -d i2b2 -v ON_ERROR_STOP=1 -t -c "SELECT COUNT(provider_id) FROM i2b2crcdata.observation_fact WHERE encounter_num='$ENC_NUM' AND provider_id='P21'")
         if [[ $COUNT_P21 == ${ARRAY_COUNT_P21[$i]} ]]; then
-            echo -e "${GRE}Count of Encounter ${ARRAY_ENC_ID[$i]} (Num:$ENC_NUM) is a match${WHI}"
+            echo -e "${GRE}Count of Encounter ${ARRAY_ENC_ID[$i]} (Num:$ENC_NUM) is a match${RES}"
         else
-            echo -e "${RED}Count of Encounter ${ARRAY_ENC_ID[$i]} (Num:$ENC_NUM) does not match ($COUNT_P21 instead of ${ARRAY_COUNT_P21[$i]}) ${WHI}"
+            echo -e "${RED}Count of Encounter ${ARRAY_ENC_ID[$i]} (Num:$ENC_NUM) does not match ($COUNT_P21 instead of ${ARRAY_COUNT_P21[$i]}) ${RES}"
             exit 1
         fi
     fi
@@ -349,9 +350,9 @@ for i in "${!ID_SCRIPTS[@]}"
 do
     RESPONSE_CODE=$(curl -s -o /dev/null -w '%{http_code}' --location --request DELETE $URL/file/${UUID_SCRIPTS[$i]} --header 'Authorization: Bearer '$BEARER_TOKEN'')
     if [[ $RESPONSE_CODE == 204 ]]; then
-	    echo -e "${GRE}DELETE of FILE_$i successful ($RESPONSE_CODE)${WHI}"
+	    echo -e "${GRE}DELETE of FILE_$i successful ($RESPONSE_CODE)${RES}"
     else
-	    echo -e "${RED}DELETE of FILE_$i failed ($RESPONSE_CODE)${WHI}"
+	    echo -e "${RED}DELETE of FILE_$i failed ($RESPONSE_CODE)${RES}"
 	    exit 1
     fi
 done
@@ -361,9 +362,9 @@ done
 # # # # # # # # #
 COUNT_FILES=$(echo $(curl -s --location --request GET $URL/file | grep -o 'id' | wc -l))
 if [[ $COUNT_FILES == 0 ]]; then
-    echo -e "${GRE}GET file successful (GOT $COUNT_FILES)${WHI}"
+    echo -e "${GRE}GET file successful (GOT $COUNT_FILES)${RES}"
 else
-    echo -e "${RED}GET file failed (GOT $COUNT_FILES)${WHI}"
+    echo -e "${RED}GET file failed (GOT $COUNT_FILES)${RES}"
     echo $(curl -s --location --request GET $URL/file)
     exit 1
 fi
@@ -372,9 +373,9 @@ fi
 # check for empty aktin/import folder
 # # # # # # # # #
 if [ -z $(ls -A /var/lib/aktin/import) ]; then
-    echo -e "${GRE}/var/lib/aktin/import is emtpy${WHI}"
+    echo -e "${GRE}/var/lib/aktin/import is emtpy${RES}"
 else
-    echo -e "${RED}/var/lib/aktin/import is not emtpy${WHI}"
+    echo -e "${RED}/var/lib/aktin/import is not emtpy${RES}"
     exit 1
 fi
 
@@ -383,8 +384,8 @@ fi
 # # # # # # # # #
 COUNT_P21=$(sudo -u postgres psql -X -A -d i2b2 -v ON_ERROR_STOP=1 -t -c "SELECT COUNT(provider_id) FROM i2b2crcdata.observation_fact WHERE provider_id='P21'")
 if [[ $COUNT_P21 == 0 ]]; then
-    echo -e "${GRE}No imported P21 data found${WHI}"
+    echo -e "${GRE}No imported P21 data found${RES}"
 else
-    echo -e "${RED}P21 are already imported (found $COUNT_P21)${WHI}"
+    echo -e "${RED}P21 are already imported (found $COUNT_P21)${RES}"
     exit 1
 fi

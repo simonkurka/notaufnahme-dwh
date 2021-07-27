@@ -9,7 +9,7 @@ readonly BRED='\e[1;31m'
 readonly BGRE='\e[1;32m'
 readonly BYEL='\e[1;33m'
 
-trap "echo -e \"${BRED}${0} failed!${RES}\"" ERR
+trap "echo -e \"${BRED}$( basename "${BASH_SOURCE[0]}" ) failed!${RES}\"" ERR
 
 #
 # Setup
@@ -19,7 +19,7 @@ GREENMAIL=$(docker run -d -t -i -p 3025:3025 -p 3110:3110 -p 3143:3143 -p 3465:3
 #
 # Test
 #
-curl -X POST localhost/aktin/admin/rest/test/email/send
+curl -fX POST localhost/aktin/admin/rest/test/email/send >/dev/null 2>&1
 
 #
 # Assert Mail exists
@@ -36,5 +36,5 @@ EOF
 docker stop $GREENMAIL
 docker rm $GREENMAIL
 
-echo -e "${BGRE}${0} succeeded!${RES}"
+echo -e "${BGRE}$( basename "${BASH_SOURCE[0]}" ) succeeded!${RES}"
 

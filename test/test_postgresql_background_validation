@@ -5,12 +5,13 @@ set -euo pipefail
 readonly INTEGRATION_ROOT=$(pwd)/resources
 readonly XML_FILES=$INTEGRATION_ROOT/xml
 
-# colors for console output
-readonly WHI=${color_white}
-readonly RED=${color_red}
-readonly ORA=${color_orange}
-readonly YEL=${color_yellow}
-readonly GRE=${color_green}
+readonly RES='\e[0m'
+readonly RED='\e[0;31m'
+readonly GRE='\e[0;32m'
+readonly YEL='\e[0;33m'
+readonly BRED='\e[1;31m'
+readonly BGRE='\e[1;32m'
+readonly BYEL='\e[1;33m'
 
 if ! systemctl is-active --quiet postgresql; then
 	echo "Starting postgresql"
@@ -27,26 +28,26 @@ echo "Stopping postgresql"
 service postgresql stop
 sleep 5s
 if ! systemctl is-active --quiet postgresql; then
-	echo -e "${GRE}postgresql is stopped${WHI}"
+	echo -e "${GRE}postgresql is stopped${RES}"
 else
-	echo -e "${RED}postgresql is not stopped${WHI}"
+	echo -e "${RED}postgresql is not stopped${RES}"
 fi
 if ! systemctl is-active --quiet wildfly; then
-	echo -e "${GRE}wildfly is stopped${WHI}"
+	echo -e "${GRE}wildfly is stopped${RES}"
 else
-	echo -e "${RED}wildfly is not stopped${WHI}"
+	echo -e "${RED}wildfly is not stopped${RES}"
 fi
 
 echo "Starting widlfly"
 service wildfly start
 sleep 5s
 if systemctl is-active --quiet wildfly; then
-	echo -e "${GRE}wildfly is started${WHI}"
+	echo -e "${GRE}wildfly is started${RES}"
 else
-	echo -e "${RED}wildfly is not started${WHI}"
+	echo -e "${RED}wildfly is not started${RES}"
 fi
 if systemctl is-active --quiet postgresql; then
-	echo -e "${GRE}postgresql is started${WHI}"
+	echo -e "${GRE}postgresql is started${RES}"
 else
-	echo -e "${RED}postgresql is not started${WHI}"
+	echo -e "${RED}postgresql is not started${RES}"
 fi
