@@ -17,17 +17,20 @@ jobs:
       - name: Build
         run: debian/build.sh "${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}" "${{ steps.prep.outputs.version }}"
       - name: Setup Ubuntu for Integration Tests
+        if: ${{ false }}
         run: |
           sudo apt-add-repository ppa:ondrej/php --remove
           sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $osLabel-cran40/" --remove
           sudo apt update && sudo apt purge -y php-* r-*
       - name: Setup DWH for Integration Tests
+        if: ${{ false }}
         run: |
           wget -qO i2b2.deb "$(curl --silent https://api.github.com/repos/simonkurka/notaufnahme-i2b2/releases/latest | grep -m 1 -E '"browser_download_url": ".*/simonkurka-notaufnahme-i2b2_[0-9]+.[0-9]+.[0-9]+.deb"' | sed -E 's/.*"([^"]+)".*/\1/')"
           sudo apt install -y ./i2b2.deb ./debian/build/${{ steps.prep.outputs.user }}-${{ steps.prep.outputs.repo }}_${{ steps.prep.outputs.version }}.deb
           WAITCOUNT=0
           while ! curl -f http://localhost/aktin/admin/ >/dev/null 2>&1; do if [ $WAITCOUNT -lt 12 ]; then ((WAITCOUNT++)); echo "Waiting for AKTIN datawarehouse to come up ..."; sleep 5; else echo "AKTIN datawarehouse didn't come up. Aborting ..."; exit 1; fi; done
       - name: Run Integration Tests
+        if: ${{ false }}
         run: run-parts --verbose test
       - name: Sign package
         env:
