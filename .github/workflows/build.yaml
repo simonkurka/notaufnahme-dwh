@@ -88,6 +88,7 @@ jobs:
             ghcr.io/${{ github.repository }}-wildfly:${{ steps.prep.outputs.version }}
           push: false
       - name: Integration Test on Docker images
+        if: ${{ false }}
         run: |
           DWHIMAGENAMESPACE="ghcr.io/${{ github.repository }}-" docker-compose -f docker/docker-compose.yaml up --no-build --detach
           sleep 30
