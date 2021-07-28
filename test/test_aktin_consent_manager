@@ -1,5 +1,4 @@
 #! /bin/bash
-
 set -euo pipefail
 
 readonly RES='\e[0m'
@@ -17,8 +16,10 @@ URL="http://localhost:80/aktin/admin/rest"
 BEARER_TOKEN=$(curl -s --location --request POST ''$URL'/auth/login/' --header 'Content-Type: application/json' --data-raw '{ "username": "i2b2", "password": "demouser" }')
 
 # create random string and number
+trap -- '' PIPE
 RANDOM_STRING=$(echo $(tr -dc 'a-zA-Z' </dev/urandom | head -c6) 2>/dev/null)
 RANDOM_NUMBER=$(echo $(tr -dc '0-9' </dev/urandom | head -c6) 2>/dev/null)
+trap - PIPE
 
 # try post on aktin/admin/consentManager via token and get response code
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" --location --request POST ''$URL'/optin/AKTIN/Patient/1.2.276.0.76.4.8/'$RANDOM_NUMBER'' --header 'Authorization: Bearer '$BEARER_TOKEN'' --header 'Content-Type: application/json' --data-raw '{ "opt": 1, "sic": "", "comment": "'$RANDOM_STRING'" }')
