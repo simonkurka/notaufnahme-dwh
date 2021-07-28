@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eE
+set -euo pipefail
 
 readonly RES='\e[0m'
 readonly RED='\e[0;31m'

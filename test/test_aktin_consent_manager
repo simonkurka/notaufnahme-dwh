@@ -13,27 +13,22 @@ readonly BYEL='\e[1;33m'
 # destination url
 URL="http://localhost:80/aktin/admin/rest"
 
-echo 1
-
 # login into aktin/admin and get bearer-token
 BEARER_TOKEN=$(curl -s --location --request POST ''$URL'/auth/login/' --header 'Content-Type: application/json' --data-raw '{ "username": "i2b2", "password": "demouser" }')
-echo 2
+
 # create random string and number
-RANDOM_STRING=$(echo $(tr -dc 'a-zA-Z' </dev/urandom | tail -n +1 | head -c6))
-RANDOM_NUMBER=$(echo $(tr -dc '0-9' </dev/urandom | tail -n +1 | head -c6))
-echo 3
+RANDOM_STRING=$(echo $(tr -dc 'a-zA-Z' </dev/urandom | head -c6) 2>/dev/null)
+RANDOM_NUMBER=$(echo $(tr -dc '0-9' </dev/urandom | head -c6) 2>/dev/null)
+
 # try post on aktin/admin/consentManager via token and get response code
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" --location --request POST ''$URL'/optin/AKTIN/Patient/1.2.276.0.76.4.8/'$RANDOM_NUMBER'' --header 'Authorization: Bearer '$BEARER_TOKEN'' --header 'Content-Type: application/json' --data-raw '{ "opt": 1, "sic": "", "comment": "'$RANDOM_STRING'" }')
-echo 4
+
 # check if response code is 200, print whole response on failure (via new request)
 if [[ $RESPONSE_CODE == 200 || $RESPONSE_CODE == 201 ]]; then
 	echo -e "${GRE}Test consent-manager successful ($RESPONSE_CODE)${RES}"
-	echo 5.1
 else
 	echo -e "${RED}Test consent-manager ($RESPONSE_CODE)${RES}"
 	echo $(curl -s --location --request POST ''$URL'/optin/AKTIN/Patient/1.2.276.0.76.4.8/'$RANDOM_NUMBER'' --header 'Authorization: Bearer '$BEARER_TOKEN'' --header 'Content-Type: application/json' --data-raw '{ "opt": 1, "sic": "", "comment": "'$RANDOM_STRING'" }')
-	echo 5.2
 	exit 1
 fi
-echo 6
 
