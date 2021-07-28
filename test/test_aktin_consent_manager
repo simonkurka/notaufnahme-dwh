@@ -19,8 +19,8 @@ echo 1
 BEARER_TOKEN=$(curl -s --location --request POST ''$URL'/auth/login/' --header 'Content-Type: application/json' --data-raw '{ "username": "i2b2", "password": "demouser" }')
 echo 2
 # create random string and number
-RANDOM_STRING=$(echo $(tr -dc 'a-zA-Z' </dev/urandom | head -c6))
-RANDOM_NUMBER=$(echo $(tr -dc '0-9' </dev/urandom | head -c6))
+RANDOM_STRING=$(echo $(tr -dc 'a-zA-Z' </dev/urandom | tail -n +1 | head -c6))
+RANDOM_NUMBER=$(echo $(tr -dc '0-9' </dev/urandom | tail -n +1 | head -c6))
 echo 3
 # try post on aktin/admin/consentManager via token and get response code
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" --location --request POST ''$URL'/optin/AKTIN/Patient/1.2.276.0.76.4.8/'$RANDOM_NUMBER'' --header 'Authorization: Bearer '$BEARER_TOKEN'' --header 'Content-Type: application/json' --data-raw '{ "opt": 1, "sic": "", "comment": "'$RANDOM_STRING'" }')
